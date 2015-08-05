@@ -1,0 +1,9 @@
+/* Extra support for ngCloak */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none;
+}
+
+
+.count{
+	color: #FF7F50;
+}
