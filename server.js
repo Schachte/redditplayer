@@ -19,8 +19,6 @@ var parser = function (array, count, node){
 }
 
 
-
-
 app.get('/player', function (req, res){
 	var posts = [];
 	request('http://www.reddit.com/r/listentothis.json', function (error, response, body) {
@@ -38,7 +36,7 @@ app.get('/player', function (req, res){
 	
 	  	};
 	  	res.json(posts);
-	  }
+	  }//End if error
 	});
 
 
@@ -56,4 +54,4 @@ app.get('/player', function (req, res){
 
 
 app.listen(5000);
-console.log("RedditPlayer Server Running - 3000");
+console.log("RedditPlayer Server Running - 5000");
