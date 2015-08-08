@@ -7,8 +7,6 @@ $scope.tracks = [];
 var refresh = function(){
 	$http.get('/player')
 		.success(function (response){
-			console.log('Got the data from server');
-			// $scope.tracks = response.tracks;
 			$scope.posts = response;
 		});
 	};
@@ -21,8 +19,6 @@ $scope.addToPlaylist = function(post){
 		artist: 'placeholder',
 		plays: 0
 	}
-	console.log(temp);
-
 	$scope.tracks.push(temp);
 	refresh();
 }

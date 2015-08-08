@@ -10,17 +10,28 @@ var request = require('request');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
+
+//Helper Functions
+
+//Parser functions gets rid of having to repeat the long array structure
+var parser = function (array, count, node){
+	return array['data']['children'][count]['data'][node];
+}
+
+
+
+
 app.get('/player', function (req, res){
 	var posts = [];
 	request('http://www.reddit.com/r/listentothis.json', function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	  	var result = JSON.parse(body);
 	  	for(var i = 0; i < 12; i++){
-	  		if (result['data']['children'][i]['data']['domain'] !== 'self.listentothis'){
+	  		if (parser(result, i, 'domain') !== 'self.listentothis'){
 	  			var tempPost = {
-		  			title: result['data']['children'][i]['data']['title'],
-		   			score: result['data']['children'][i]['data']['score'],
-		   			url: result['data']['children'][i]['data']['url']
+		  			title: parser(result, i, 'title'),
+		   			score: parser(result, i, 'score'),
+		   			url: parser(result, i, 'url')
 		   		}; 
 	   			posts.push(tempPost);
 	   		}; //End check for text posts
