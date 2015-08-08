@@ -4,7 +4,10 @@
   "description": "RedditPlayer allows the user to view posts from music based subreddits, then add them to their own playlist. A playlist can then be listened to through our custom interface.",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.13.3"
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "reddit-stream": "^1.2.0",
+    "request": "^2.60.0"
   },
   "devDependencies": {},
   "scripts": {
