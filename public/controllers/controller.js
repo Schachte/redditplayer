@@ -11,7 +11,8 @@ var refresh = function(){
 		});
 	};
 
-refresh(); 
+refresh();
+$scope.update = refresh();
 
 $scope.addToPlaylist = function(post){
 	var temp = {
