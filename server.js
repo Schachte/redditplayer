@@ -8,7 +8,8 @@ var request = require('request');
 var mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost:27017/redditplayer');
+mongoose.connect('mongodb://localhost:27017/testdb');
+var Song = require('./app/models/song');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 //Parser functions gets rid of having to repeat the long array structure
 var parse = function (dataArray, startArray, num){
+	num += 2; //Gives you true number of posts because of self posts
 	for(var i = 0; i < num; i++){
 		if (dataArray['data']['children'][i]['data']['domain'] !== 'self.listentothis'){
 			var tempPost = {
@@ -41,22 +43,25 @@ app.get('/player', function (req, res){
 	  	var data = JSON.parse(body); //Raw parsed data
 	  	var numPostsWanted = 12; //How many posts you want returned
 	  	var posts = parse(data, empty, numPostsWanted); //For loop inside here
-	  	res.json(posts);
+	  	
+	  	Song.find(function (err, songs){
+		 	if(err) res.send(err);
+
+		 	//return songs
+		 	var obj = {
+		 		posts: posts,
+		 		songs: songs
+		 	}
+		 	console.log(obj.songs);
+		 	res.json(obj);
+		 })
+	  	//res.json(posts);
 	  } //End error checking (if)
 	 //End request
-}); //End Get Request
 
+	 //Getting songs from database
 
-
-	 // db.posts.find(function (error, docs){
-	 // 	console.log(docs);
-	 // 	res.json(docs);
-	 // });
-
-	    // res.json({
-	    // 	posts: posts, 
-	    // 	tracks: tracks
-	    // });
+	}); //End Get Request
 });
 
 

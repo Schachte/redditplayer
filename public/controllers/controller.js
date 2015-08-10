@@ -6,8 +6,9 @@ $scope.tracks = [];
 
 var refresh = function(){
 	$http.get('/player')
-		.success(function (response){
-			$scope.posts = response;
+		.success(function (obj){
+			$scope.posts = obj.posts;
+			$scope.tracks = obj.songs;
 		});
 	};
 

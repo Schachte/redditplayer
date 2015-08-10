@@ -2,9 +2,10 @@
 var mongoose 	= require('mongoose');
 var Schema 		= mongoose.Schema;
 
-var SongSchema = new Scheme({
+var SongSchema = new Schema({
 	title: String,
-	artist: String
+	artist: String,
+	url: String
 });
 
 
