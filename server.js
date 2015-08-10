@@ -5,6 +5,10 @@ var mongojs = require('mongojs');
 var bodyParser = require('body-parser');
 // DB, [collection]
 var request = require('request');
+var mongoose = require('mongoose');
+
+
+mongoose.connect('mongodb://localhost:27017/redditplayer');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -14,30 +18,33 @@ app.use(bodyParser.json());
 //Helper Functions
 
 //Parser functions gets rid of having to repeat the long array structure
-var parser = function (array, count, node){
-	return array['data']['children'][count]['data'][node];
+var parse = function (dataArray, startArray, num){
+	for(var i = 0; i < num; i++){
+		if (dataArray['data']['children'][i]['data']['domain'] !== 'self.listentothis'){
+			var tempPost = {
+				title: dataArray['data']['children'][i]['data']['title'],
+				score: dataArray['data']['children'][i]['data']['score'],
+				url: dataArray['data']['children'][i]['data']['url']
+			};
+
+			startArray.push(tempPost);
+		}; //End check for self post (if)
+	}; //End For Loop
+	return startArray;
 }
 
 
 app.get('/player', function (req, res){
-	var posts = [];
+	var empty = [];
 	request('http://www.reddit.com/r/listentothis.json', function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	  	var result = JSON.parse(body);
-	  	for(var i = 0; i < 12; i++){
-	  		if (parser(result, i, 'domain') !== 'self.listentothis'){
-	  			var tempPost = {
-		  			title: parser(result, i, 'title'),
-		   			score: parser(result, i, 'score'),
-		   			url: parser(result, i, 'url')
-		   		}; 
-	   			posts.push(tempPost);
-	   		}; //End check for text posts
-	
-	  	};
+	  	var data = JSON.parse(body); //Raw parsed data
+	  	var numPostsWanted = 12; //How many posts you want returned
+	  	var posts = parse(data, empty, numPostsWanted); //For loop inside here
 	  	res.json(posts);
-	  }//End if error
-	});
+	  } //End error checking (if)
+	 //End request
+}); //End Get Request
 
 
 
