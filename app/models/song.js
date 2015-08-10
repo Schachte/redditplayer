@@ -5,8 +5,13 @@ var Schema 		= mongoose.Schema;
 var SongSchema = new Schema({
 	title: String,
 	artist: String,
-	url: String
+	url: String,
+	plays: Number
 });
 
+var UserSchema = new Schema({
 
-module.exports = mongoose.model('Song', SongSchema)
+})
+
+
+module.exports = mongoose.model('Song', SongSchema, 'song');

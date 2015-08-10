@@ -6,27 +6,36 @@ $scope.tracks = [];
 
 var refresh = function(){
 	$http.get('/player')
-		.success(function (obj){
-			$scope.posts = obj.posts;
-			$scope.tracks = obj.songs;
+		.success(function (posts){
+			$scope.posts = posts;
+
 		});
 	};
 
-refresh();
-$scope.update = refresh();
+var dbRefresh = function(){
+	$http.get('/dbUpdate')
+		.success(function (tracks){
+			$scope.tracks = tracks;
+		});
+};
+
 
 $scope.addToPlaylist = function(post){
-	var temp = {
-		name: post.title,
-		artist: 'placeholder',
-		plays: 0
-	}
-	$scope.tracks.push(temp);
-	refresh();
-}
+	$http.post('/player', post)
+		.success(function (){
+			dbRefresh();
+		});
+};
+
+dbRefresh();
+refresh();
 
 $scope.playIncrement = function(track){
-	track.plays += 1;
+	$http.post('/dbUpdate', track)
+		.success(function (){
+			dbRefresh();
+		})
+
 }
 
 }]);
