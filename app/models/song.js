@@ -9,9 +9,6 @@ var SongSchema = new Schema({
 	plays: Number
 });
 
-var UserSchema = new Schema({
-
-})
 
 
 module.exports = mongoose.model('Song', SongSchema, 'song');

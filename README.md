@@ -1,1 +1,0 @@
-RedditPlayer allows the user to view posts from music based subreddits, then add them to their own playlist. A playlist can then be listened to through our custom interface.
